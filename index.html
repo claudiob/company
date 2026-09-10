@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Company</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: #050208; color: #27e0ff;
+    font-family: "IBM Plex Mono", "SFMono-Regular", Menlo, monospace; overflow-x: hidden;
+  }
+  .rm *, .rm *::before, .rm *::after { animation: none !important; transition: none !important; }
+  .px { font-family: "Press Start 2P", "IBM Plex Mono", monospace; }
+  a { color: inherit; }
+
+  body::after {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 80;
+    background: repeating-linear-gradient(0deg, rgba(0,0,0,.26) 0 2px, transparent 2px 4px);
+  }
+
+  /* chrome */
+  .chrome {
+    position: sticky; top: 0; z-index: 70; background: #050208f2;
+    border-bottom: 2px solid #1c1030; padding: 10px 14px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .chrome nav { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+  .chrome nav::-webkit-scrollbar { display: none; }
+  .chrome nav button, .chrome .ctrl a, .chrome .ctrl button {
+    flex: none; width: 34px; height: 34px; padding: 5px; cursor: pointer; display: block;
+    background: #0a0416; border: 2px solid #33334f; color: #27e0ff;
+  }
+  .chrome nav button svg, .chrome .ctrl a svg, .chrome .ctrl button svg { width: 100%; height: 100%; display: block; }
+  .chrome nav button:hover, .chrome nav button:focus-visible,
+  .chrome .ctrl a:hover, .chrome .ctrl a:focus-visible,
+  .chrome .ctrl button:hover, .chrome .ctrl button:focus-visible { border-color: #ffd23e; color: #ffd23e; outline: none; }
+  .chrome nav button[aria-pressed="true"] { border-color: #ffd23e; color: #ffd23e; background: #1b1030; }
+  .chrome .score {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    font-family: "Press Start 2P", "IBM Plex Mono", monospace; font-size: 10px;
+    color: #ff2d78; white-space: nowrap;
+  }
+  .chrome .score .cyan { color: #27e0ff; }
+  .chrome .ctrl { display: flex; gap: 4px; margin-left: auto; }
+  .chrome .ctrl button[aria-pressed="true"] { color: #6a6a8a; }
+  @media (max-width: 720px) { .chrome .score { display: none; } }
+
+  .hero { text-align: center; padding: 38px 20px 10px; position: relative; }
+  h1 {
+    font-family: "Press Start 2P", "IBM Plex Mono", monospace; font-size: clamp(32px, 10vw, 92px); margin: 0;
+    color: #fff; text-shadow: 0 0 6px #27e0ff, 0 0 24px #27e0ff, 4px 4px 0 #ff2d78;
+    animation: flick 4s infinite steps(1);
+  }
+  @keyframes flick { 0%,92%,96%,100% { opacity: 1; } 93%,97% { opacity: .55; } }
+  .hero .sub { font-family: "Press Start 2P", "IBM Plex Mono", monospace; font-size: clamp(9px, 2.2vw, 14px); color: #ffd23e; margin: 22px 0 0; line-height: 2.1; }
+  .hero .press {
+    font-family: "Press Start 2P", "IBM Plex Mono", monospace; font-size: clamp(10px, 2vw, 15px); color: #7be08a;
+    margin: 24px 0 0; animation: blink 1.1s steps(1) infinite;
+    display: flex; align-items: center; justify-content: center; gap: 14px; line-height: 1;
+  }
+  .hero .press .tri { font-size: .72em; line-height: 1; transform: translateY(-0.22em); }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* roster */
+  .select { padding: 26px clamp(20px, 4vw, 64px) 10px; scroll-margin-top: 70px; }
+  .select h2 { font-family: "Press Start 2P", "IBM Plex Mono", monospace; font-size: 13px; color: #ff2d78; text-align: center; margin: 0 0 20px; letter-spacing: 2px; }
+  .roster { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+  .fighter {
+    width: 118px; padding: 14px 6px 10px; border: 3px solid #27e0ff; background: #0a0416; cursor: pointer;
+    text-align: center; color: #27e0ff; box-shadow: 0 0 12px rgba(39,224,255,.3) inset;
+    font-family: "Press Start 2P", "IBM Plex Mono", monospace;
+  }
+  .fighter svg { width: 50px; height: 50px; pointer-events: none; }
+  .fighter span { display: block; font-size: 7px; margin-top: 10px; color: #9be8ff; letter-spacing: 1px; pointer-events: none; }
+  .fighter:hover, .fighter:focus-visible { border-color: #ff2d78; outline: none; }
+  .fighter[aria-pressed="true"] { border-color: #ffd23e; color: #ffd23e; animation: pulse 1s infinite; }
+  .fighter[aria-pressed="true"] span { color: #ffd23e; }
+  @keyframes pulse { 50% { box-shadow: 0 0 22px rgba(255,210,62,.65) inset; } }
+  .fighter.falling { animation: fall 1.4s cubic-bezier(.5,0,.9,.4) forwards; }
+  @keyframes fall { to { transform: translateY(120vh) rotate(220deg); opacity: .2; } }
+
+  .snippet { margin: 22px 0 0; }
+  .snippet .snipbar { display: flex; justify-content: space-between; font-family: "Press Start 2P", "IBM Plex Mono", monospace; font-size: 8px; color: #ff9ec1; padding: 0 2px 8px; letter-spacing: 1px; }
+  .snippet pre {
+    margin: 0; background: #02020a; border: 3px solid #ff2d78; padding: 20px 22px;
+    color: #7be08a; font-size: 14px; line-height: 1.85; overflow: auto;
+    box-shadow: 0 0 24px rgba(255,45,120,.3); height: 214px;
+  }
+  .snippet pre .c { color: #6a6a8a; }
+
+  /* road */
+  .road { height: 104px; position: relative; border-top: 3px dashed #33334f; margin-top: 26px; overflow: hidden; }
+  .van {
+    position: absolute; bottom: 22px; left: 0; width: 86px; color: #ffd23e;
+    filter: drop-shadow(0 0 10px rgba(255,210,62,.6));
+    animation: drive 11s linear infinite;
+  }
+  @keyframes drive {
+    0% { transform: translateX(-110px); }
+    100% { transform: translateX(calc(100vw + 30px)); }
+  }
+  .rm .van { left: 40%; }
+
+  .marq { border-top: 4px solid #ff2d78; padding: 12px 0 14px; overflow: hidden; white-space: nowrap; }
+  .marq span { display: inline-block; font-family: "Press Start 2P", "IBM Plex Mono", monospace; font-size: 10px; color: #ff9ec1; padding-left: 100%; animation: marq 30s linear infinite; }
+  .marq a { color: #ffd23e; text-decoration: underline; text-underline-offset: 3px; }
+  .marq:hover span, .marq:focus-within span { animation-play-state: paused; }
+  @keyframes marq { to { transform: translateX(-100%); } }
+
+  /* konami invasion */
+  #fleet { position: fixed; inset: 0; z-index: 90; pointer-events: none; display: none; }
+  #fleet.on { display: block; }
+  .invader { position: absolute; width: 44px; height: 44px; color: #7be08a; filter: drop-shadow(0 0 8px rgba(123,224,138,.8)); }
+  .invader svg { width: 100%; height: 100%; }
+  .boom { position: absolute; font-family: "Press Start 2P", "IBM Plex Mono", monospace; font-size: 10px; color: #ffd23e; }
+  .ship { position: absolute; width: 86px; color: #ffd23e; filter: drop-shadow(0 0 10px rgba(255,210,62,.7)); will-change: transform; }
+  .ship svg { width: 100%; height: 100%; }
+  .bullet { position: absolute; width: 5px; height: 18px; background: #7be08a; box-shadow: 0 0 10px #7be08a; }
+  #alert {
+    position: fixed; top: 20%; left: 0; right: 0; z-index: 91; display: none;
+    text-align: center; font-family: "Press Start 2P", "IBM Plex Mono", monospace; font-size: clamp(12px, 3vw, 22px);
+    color: #ff2d78; text-shadow: 0 0 18px #ff2d78; animation: blink .5s steps(1) infinite;
+  }
+  #alert.on { display: block; }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="i-account" fill="none" stroke="currentColor" stroke-width="28" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M56 126 Q56 106 76 106 L436 106 Q456 106 456 126 L456 366 Q456 386 436 386 L76 386 Q56 386 56 366 Z"/>
+      <circle cx="150" cy="210" r="36"/>
+      <path d="M104 312 Q104 262 150 262 Q196 262 196 312"/>
+      <path d="M252 206 L404 206"/><path d="M252 286 L404 286"/>
+    </g>
+    <g id="i-business" fill="none" stroke="currentColor" stroke-width="28" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="256" cy="118" r="56"/>
+      <path d="M256 174 L256 252"/><path d="M128 252 L384 252"/>
+      <path d="M128 252 L128 322"/><path d="M384 252 L384 322"/>
+      <circle cx="128" cy="390" r="54"/><circle cx="384" cy="390" r="54"/>
+    </g>
+    <g id="i-job" fill="none" stroke="currentColor" stroke-width="28" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M56 206 Q56 186 76 186 L436 186 Q456 186 456 206 L456 426 Q456 446 436 446 L76 446 Q56 446 56 426 Z"/>
+      <path d="M56 266 L456 266"/>
+      <path d="M186 186 L186 132 Q186 106 212 106 L300 106 Q326 106 326 132 L326 186"/>
+      <path d="M226 236 L286 236 L286 316 L226 316 Z"/>
+    </g>
+    <g id="i-quote" fill="none" stroke="currentColor" stroke-width="28" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M126 46 L326 46 L386 106 L386 466 L126 466 Z"/>
+      <path d="M326 46 L326 106 L386 106"/>
+      <path d="M176 176 L336 176"/>
+      <path d="M256 256 L256 436"/>
+      <path d="M306 306 Q306 286 276 286 L236 286 Q206 286 206 321 Q206 356 236 356 L276 356 Q306 356 306 391 Q306 426 276 426 L236 426 Q206 426 206 406"/>
+    </g>
+    <g id="i-line" fill="none" stroke="currentColor" stroke-width="28" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M56 156 Q56 136 76 136 L436 136 Q456 136 456 156 L456 356 Q456 376 436 376 L76 376 Q56 376 56 356 Z"/>
+      <path d="M116 256 Q151 206 186 256 Q221 306 256 256 Q291 206 326 256 Q361 306 396 256"/>
+    </g>
+    <g id="i-location" fill="none" stroke="currentColor" stroke-width="28" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M56 266 L256 116 L456 266"/>
+      <path d="M96 286 L96 456 L416 456 L416 286"/>
+      <path d="M216 456 L216 356 Q216 336 236 336 L276 336 Q296 336 296 356 L296 456"/>
+    </g>
+    <g id="i-customer" fill="none" stroke="currentColor" stroke-width="28" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="256" cy="140" r="76"/>
+      <path d="M96 456 Q96 288 256 288 Q416 288 416 456"/>
+    </g>
+    <g id="i-visit" fill="none" stroke="currentColor" stroke-width="28" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M86 346 L46 346 L46 176 Q46 156 66 156 L286 156 L336 168 L416 246 L456 260 Q466 264 466 296 L466 346 L426 346"/>
+      <path d="M186 346 L326 346"/>
+      <circle cx="136" cy="346" r="44"/><circle cx="376" cy="346" r="44"/>
+      <path d="M296 190 L326 196 L376 246 L296 246 Z"/>
+    </g>
+    <g id="i-lead" fill="none" stroke="currentColor" stroke-width="28" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="216" cy="150" r="70"/>
+      <path d="M76 456 Q76 300 216 300 Q356 300 356 456"/>
+      <path d="M396 116 L396 196"/><path d="M356 156 L436 156"/>
+    </g>
+  </defs>
+</svg>
+
+<div class="chrome">
+  <nav id="iconnav" aria-label="records"></nav>
+  <span class="score">1UP&nbsp;&nbsp;<span id="score" class="cyan">000000</span></span>
+  <div class="ctrl">
+    <a href="https://github.com/claudiob/company" aria-label="Code on GitHub" title="code on github">
+      <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+    </a>
+    <button id="soundbtn" type="button" aria-pressed="false" aria-label="Mute sound" title="sound on">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 9.5 L8 9.5 L13 5 L13 19 L8 14.5 L4 14.5 Z" fill="currentColor" stroke="none"/>
+        <path class="snd-on" d="M16.5 9 Q18 12 16.5 15"/>
+        <path class="snd-on" d="M18.5 7 Q21 12 18.5 17"/>
+        <path class="snd-off" d="M16.5 9.5 L21.5 14.5 M21.5 9.5 L16.5 14.5" style="display:none"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<header class="hero">
+  <h1>COMPANY</h1>
+  <p class="sub">ONE VOCABULARY · EVERY PLATFORM</p>
+  <p class="press"><span class="tri">▶</span><span>GEM INSTALL COMPANY</span><span class="tri">◀</span></p>
+</header>
+
+<main>
+  <section class="select" id="select">
+    <h2>SELECT YOUR RECORD</h2>
+    <div class="roster" id="roster"></div>
+    <div class="snippet">
+      <div class="snipbar"><span id="snipname">P1 · ACCOUNT</span><span>READY</span></div>
+      <pre id="snip"></pre>
+    </div>
+  </section>
+</main>
+
+<div class="road"><svg class="van" id="van" viewBox="0 0 512 512"><use href="#i-visit"/></svg></div>
+
+<div class="marq"><span>ONE VOCABULARY, EVERY PLATFORM ··· A GEM ANSWERS EACH AND BETWEEN, THE REST IS HERE ··· A FIELD THE PLATFORM HOLDS NOTHING FOR ANSWERS NIL ··· PHONES ALWAYS TEN DIGITS ··· AMOUNTS IN DOLLARS ··· MOMENTS AS TIMES ··· BUILT AT <a href="https://houseaccount.com">HOUSEACCOUNT</a> ··· CODE ON <a href="https://github.com/claudiob/company">GITHUB</a> ··· INSERT COIN ···</span></div>
+
+<div id="fleet" aria-hidden="true"></div>
+<div id="alert" aria-hidden="true">⚠ THEY CAME FOR THE VOCABULARY ⚠</div>
+
+<script>
+(function () {
+  var RM = false;
+  try { RM = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+  if (RM) document.documentElement.classList.add('rm');
+
+  /* ---------- the records, as the Acme walkthrough reads them ---------- */
+  var C = function (t) { return '<span class="c">' + t + '</span>'; };
+  var KINDS = [
+    { id: 'account', name: 'ACCOUNT', code:
+      "account = Acme::Account.new credentials  " + C('# => #<Acme::Account>') + '\n' +
+      "account.business                         " + C('# => #<Acme::Business>') + '\n' +
+      "account.jobs.past(3.months)              " + C('# => #<Acme::Jobs>') + '\n' +
+      "account.visits.upcoming(1.day)           " + C('# => #<Acme::Visits>') + '\n' +
+      "account.leads                            " + C('# => #<Acme::Leads>, create files one') },
+    { id: 'business', name: 'BUSINESS', code:
+      "business = account.business              " + C('# => #<Acme::Business>') + '\n' +
+      "business.id                              " + C("# => '42'") + '\n' +
+      "business.name                            " + C("# => 'Acme, Inc.'") + '\n' +
+      "business.phone                           " + C("# => '5555555555', ten digits however written") + '\n' +
+      "business.subsidiaries                    " + C('# => [#<Acme::Business>, ...], itself first') },
+    { id: 'job', name: 'JOB', code:
+      "jobs = account.jobs.past(3.months)       " + C('# => #<Acme::Jobs>, walked a page at a time') + '\n' +
+      "jobs.ids                                 " + C("# => ['j1', 'j2', ...]") + '\n' +
+      "job = jobs.first\n" +
+      "job.description                          " + C("# => 'Repair'") + '\n' +
+      "job.notes                                " + C("# => 'Ring twice'") + '\n' +
+      "job.created_at                           " + C('# => 2026-09-03 06:00:00 UTC') + '\n' +
+      "job.scheduled_at, job.completed_at       " + C('# => a Time, and nil until done') + '\n' +
+      "job.amount                               " + C('# => 19.99, dollars as a BigDecimal') },
+    { id: 'quote', name: 'QUOTE', code:
+      "quote = job.quote                        " + C('# => #<Acme::Quote>, nil where won without one') + '\n' +
+      "quote.id                                 " + C("# => 'q1'") + '\n' +
+      "quote.amount                             " + C('# => 24.99') },
+    { id: 'line', name: 'LINE', code:
+      "line = job.lines.first                   " + C('# => #<Acme::Line>') + '\n' +
+      "line.id                                  " + C("# => 'l1'") + '\n' +
+      "line.name                                " + C("# => 'Labor'") + '\n' +
+      "line.description                         " + C("# => 'Hours to fix the issue'") + '\n' +
+      "line.quantity                            " + C('# => 1.5, a whole one reads whole') + '\n' +
+      "line.amount                              " + C('# => 24.99') },
+    { id: 'location', name: 'LOCATION', code:
+      "location = job.location                  " + C('# => #<Acme::Location>') + '\n' +
+      "location.id                              " + C("# => 'a1'") + '\n' +
+      "location.street                          " + C("# => '100 Acme Circle'") + '\n' +
+      "location.city                            " + C("# => 'Springfield'") + '\n' +
+      "location.zip                             " + C("# => '98920'") + '\n' +
+      "location.latitude, location.longitude    " + C('# => 45.2335, -9.1234') },
+    { id: 'customer', name: 'CUSTOMER', code:
+      "customer = location.customer             " + C('# => #<Acme::Customer>') + '\n' +
+      "customer.id                              " + C("# => 'c1'") + '\n' +
+      "customer.name                            " + C("# => 'Jane'") + '\n' +
+      "customer.surname                         " + C("# => 'Qi'") + '\n' +
+      "customer.email                           " + C("# => 'jane@example.com'") + '\n' +
+      "customer.phone                           " + C("# => '5555555666'") },
+    { id: 'visit', name: 'VISIT', code:
+      "visits = account.visits.upcoming(1.day)  " + C('# => #<Acme::Visits>') + '\n' +
+      "visit = visits.first                     " + C('# => #<Acme::Visit>') + '\n' +
+      "visit.description                        " + C("# => 'Service appointment'") + '\n' +
+      "visit.starts_at                          " + C('# => 2026-09-10 01:00:00 UTC') + '\n' +
+      "visit.ends_at                            " + C('# => 2026-09-10 02:00:00 UTC') + '\n' +
+      "visit.anytime?                           " + C('# => false') + '\n' +
+      "visit.job                                " + C('# => job, where the stop happens') },
+    { id: 'lead', name: 'LEAD', code:
+      "lead = account.leads.create name: 'Jane', surname: 'Qi',\n" +
+      "  phone: '5555555666', email: 'jane@example.com',\n" +
+      "  address: { street: '100 Acme Circle', zip: '98920' },\n" +
+      "  description: 'Repair', notes: 'Estimate $20–$30', source: 'Website'\n" +
+      "lead.id                                  " + C("# => 'd1'") + '\n' +
+      "lead.customer                            " + C('# => #<Acme::Customer>, opened with it') }
+  ];
+
+  /* ---------- build roster + nav ---------- */
+  var roster = document.getElementById('roster'), nav = document.getElementById('iconnav');
+  var snip = document.getElementById('snip'), snipname = document.getElementById('snipname');
+  KINDS.forEach(function (k) {
+    var f = document.createElement('button');
+    f.type = 'button'; f.className = 'fighter'; f.dataset.kind = k.id;
+    f.setAttribute('aria-pressed', 'false');
+    f.innerHTML = '<svg viewBox="0 0 512 512"><use href="#i-' + k.id + '"/></svg><span>' + k.name + '</span>';
+    f.addEventListener('click', function () { select(k.id, true); });
+    roster.appendChild(f);
+
+    var n = document.createElement('button');
+    n.type = 'button'; n.dataset.kind = k.id;
+    n.setAttribute('aria-label', k.name.toLowerCase());
+    n.setAttribute('aria-pressed', 'false');
+    n.title = k.name.toLowerCase();
+    n.innerHTML = '<svg viewBox="0 0 512 512"><use href="#i-' + k.id + '"/></svg>';
+    n.addEventListener('click', function () {
+      document.getElementById('select').scrollIntoView({ behavior: RM ? 'auto' : 'smooth' });
+      select(k.id, true);
+    });
+    nav.appendChild(n);
+  });
+
+  var current = null, coins = 0;
+  function select(id, paid) {
+    var k = KINDS.find(function (x) { return x.id === id; });
+    if (!k) return;
+    if (paid && current !== id) { coins += 1; playCoin(); }
+    current = id;
+    document.querySelectorAll('[data-kind]').forEach(function (el) {
+      el.setAttribute('aria-pressed', String(el.dataset.kind === id));
+    });
+    snip.innerHTML = k.code;
+    snipname.textContent = 'P1 · ' + k.name;
+    updateScore();
+  }
+
+  /* ---------- score ---------- */
+  var scoreEl = document.getElementById('score'), invading = false, prog = 0;
+  function updateScore() {
+    if (invading) return;
+    var s = coins * 100 + Math.round(prog * 42) * 100;
+    scoreEl.textContent = String(Math.min(s, 999999)).padStart(6, '0');
+  }
+  addEventListener('scroll', function () {
+    var d = document.documentElement;
+    prog = d.scrollTop / Math.max(1, d.scrollHeight - innerHeight);
+    updateScore();
+  }, { passive: true });
+
+  /* ---------- 8-bit audio ---------- */
+  var ctx = null, muted = false;
+  try { muted = localStorage.getItem('company-muted') === '1'; } catch (e) {}
+  var soundBtn = document.getElementById('soundbtn');
+  function paintSound() {
+    if (!soundBtn) return;
+    soundBtn.setAttribute('aria-pressed', String(muted));
+    soundBtn.setAttribute('aria-label', muted ? 'Unmute sound' : 'Mute sound');
+    soundBtn.title = muted ? 'no sound' : 'sound on';
+    soundBtn.querySelectorAll('.snd-on').forEach(function (p) { p.style.display = muted ? 'none' : ''; });
+    soundBtn.querySelectorAll('.snd-off').forEach(function (p) { p.style.display = muted ? '' : 'none'; });
+  }
+  if (soundBtn) {
+    paintSound();
+    soundBtn.addEventListener('click', function () {
+      muted = !muted;
+      try { localStorage.setItem('company-muted', muted ? '1' : '0'); } catch (e) {}
+      paintSound();
+      if (!muted) playCoin();
+    });
+  }
+  function audio() {
+    if (!ctx) { try { ctx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {} }
+    if (ctx && ctx.state === 'suspended') ctx.resume();
+    return ctx;
+  }
+  function beep(freq, start, dur, type, vol) {
+    if (muted) return;
+    var a = audio(); if (!a) return;
+    var o = a.createOscillator(), g = a.createGain();
+    o.type = type || 'square'; o.frequency.value = freq;
+    g.gain.setValueAtTime(vol || 0.08, a.currentTime + start);
+    g.gain.exponentialRampToValueAtTime(0.0001, a.currentTime + start + dur);
+    o.connect(g); g.connect(a.destination);
+    o.start(a.currentTime + start); o.stop(a.currentTime + start + dur + 0.02);
+  }
+  function playCoin() { beep(988, 0, 0.09); beep(1319, 0.09, 0.3); }
+  function playBlip(step) { beep([220, 196, 175, 165][step % 4], 0, 0.12, 'square', 0.05); }
+  function playBoom() { beep(110, 0, 0.4, 'sawtooth', 0.1); beep(55, 0.05, 0.5, 'sawtooth', 0.1); }
+
+  /* ---------- konami invasion ---------- */
+  var KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+  var pos = 0;
+  addEventListener('keydown', function (e) {
+    var key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+    pos = (key === KONAMI[pos]) ? pos + 1 : (key === KONAMI[0] ? 1 : 0);
+    if (pos === KONAMI.length) { pos = 0; invade(); }
+  });
+
+  /* the konami defense: the van becomes your ship */
+  var fleetEl = document.getElementById('fleet'), alertEl = document.getElementById('alert');
+  var gameOn = false, keysHeld = {}, ship = null, shipX = 0,
+      bullets = [], invaders = [], marchT = null, rafId = null,
+      gameScore = 0, lastFire = 0;
+
+  addEventListener('keydown', function (e) {
+    if (!gameOn) return;
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight' && e.key !== ' ') return;
+    e.preventDefault();
+    if (e.key === ' ') fire(); else keysHeld[e.key] = true;
+  });
+  addEventListener('keyup', function (e) { keysHeld[e.key] = false; });
+
+  function fire() {
+    var now = Date.now();
+    if (now - lastFire < 220) return;
+    lastFire = now;
+    var b = document.createElement('div');
+    b.className = 'bullet';
+    var x = shipX + 41, y = innerHeight - 150;
+    b.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+    fleetEl.appendChild(b);
+    bullets.push({ el: b, x: x, y: y });
+    beep(1400, 0, 0.06, 'square', 0.05); beep(700, 0.05, 0.08, 'square', 0.04);
+  }
+
+  function invade() {
+    if (invading) return;
+    invading = true;
+    playCoin();
+    fleetEl.classList.add('on'); fleetEl.innerHTML = '';
+    alertEl.textContent = '⚠ DEFEND THE VOCABULARY · ←/→ MOVE · SPACE FIRES ⚠';
+    alertEl.classList.add('on');
+    setTimeout(function () { if (gameOn) alertEl.classList.remove('on'); }, 3000);
+    gameScore = 0;
+    var press = document.querySelector('.hero .press');
+    if (press) press.style.visibility = 'hidden';
+    if (RM) {
+      scoreEl.textContent = '999999';
+      setTimeout(cleanup, 2200);
+      return;
+    }
+    var vanEl = document.getElementById('van');
+    var start = { x: innerWidth / 2 - 43, y: innerHeight + 60 };
+    if (vanEl) {
+      var vr = vanEl.getBoundingClientRect();
+      if (vr.width) { start = { x: vr.left, y: vr.top }; }
+      vanEl.style.visibility = 'hidden';
+    }
+    ship = document.createElement('div');
+    ship.className = 'ship';
+    ship.innerHTML = '<svg viewBox="0 0 512 512"><use href="#i-visit"/></svg>';
+    fleetEl.appendChild(ship);
+    ship.style.transform = 'translate(' + start.x + 'px,' + start.y + 'px)';
+    void ship.offsetWidth;
+    ship.style.transition = 'transform .85s cubic-bezier(.3,.8,.3,1)';
+    shipX = innerWidth / 2 - 43;
+    ship.style.transform = 'translate(' + shipX + 'px,' + (innerHeight - 130) + 'px)';
+    setTimeout(function () { if (ship) ship.style.transition = 'none'; }, 900);
+    var ids = ['business', 'job', 'quote', 'line', 'location', 'customer', 'lead', 'account'];
+    var cols = Math.min(8, Math.max(4, Math.floor(innerWidth / 130)));
+    invaders = []; bullets = [];
+    for (var r = 0; r < 2; r++) {
+      for (var i = 0; i < cols; i++) {
+        var d = document.createElement('div');
+        d.className = 'invader';
+        d.innerHTML = '<svg viewBox="0 0 512 512"><use href="#i-' + ids[(i + r) % ids.length] + '"/></svg>';
+        fleetEl.appendChild(d);
+        invaders.push({ el: d, x: 40 + i * ((innerWidth - 140) / Math.max(1, cols - 1)), y: 60 + r * 64, alive: true });
+      }
+    }
+    gameOn = true;
+    var dir = 1, step = 0;
+    function march() {
+      if (!gameOn) return;
+      step++;
+      var alive = invaders.filter(function (v) { return v.alive; });
+      if (!alive.length) return;
+      var hitEdge = alive.some(function (v) { var nx = v.x + dir * 22; return nx < 10 || nx > innerWidth - 54; });
+      if (hitEdge) { dir = -dir; alive.forEach(function (v) { v.y += 30; }); }
+      else alive.forEach(function (v) { v.x += dir * 22; });
+      alive.forEach(function (v) {
+        v.el.style.transform = 'translate(' + v.x + 'px,' + v.y + 'px)' + (step % 2 ? ' scaleX(-1)' : '');
+      });
+      playBlip(step);
+      if (alive.some(function (v) { return v.y > innerHeight - 230; })) { lose(); return; }
+      var killed = invaders.length - alive.length;
+      marchT = setTimeout(march, Math.max(110, 420 - step * 5 - killed * 22));
+    }
+    marchT = setTimeout(march, 420);
+    rafId = requestAnimationFrame(tick);
+  }
+
+  function tick() {
+    if (!gameOn) return;
+    if (keysHeld.ArrowLeft) shipX -= 9;
+    if (keysHeld.ArrowRight) shipX += 9;
+    shipX = Math.max(4, Math.min(innerWidth - 90, shipX));
+    ship.style.transform = 'translate(' + shipX + 'px,' + (innerHeight - 130) + 'px)';
+    for (var i = bullets.length - 1; i >= 0; i--) {
+      var b = bullets[i];
+      b.y -= 12;
+      if (b.y < -20) { b.el.remove(); bullets.splice(i, 1); continue; }
+      b.el.style.transform = 'translate(' + b.x + 'px,' + b.y + 'px)';
+      for (var j = 0; j < invaders.length; j++) {
+        var v = invaders[j];
+        if (!v.alive) continue;
+        if (Math.abs(b.x - (v.x + 22)) < 30 && Math.abs(b.y - (v.y + 22)) < 30) {
+          v.alive = false;
+          v.el.remove();
+          boomAt(v.x, v.y);
+          playBoom();
+          gameScore += 100;
+          scoreEl.textContent = String(Math.min(coins * 100 + gameScore, 999999)).padStart(6, '0');
+          b.el.remove(); bullets.splice(i, 1);
+          break;
+        }
+      }
+    }
+    if (invaders.length && invaders.every(function (v) { return !v.alive; })) { win(); return; }
+    rafId = requestAnimationFrame(tick);
+  }
+
+  function boomAt(x, y) {
+    var b = document.createElement('div');
+    b.className = 'boom'; b.textContent = '+100';
+    b.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+    fleetEl.appendChild(b);
+    setTimeout(function () { b.remove(); }, 900);
+  }
+
+  function win() {
+    gameOn = false;
+    clearTimeout(marchT);
+    alertEl.textContent = '★ WAVE CLEARED · THE VOCABULARY HOLDS ★';
+    alertEl.style.color = '#7be08a'; alertEl.style.textShadow = '0 0 18px #7be08a';
+    alertEl.classList.add('on');
+    [660, 880, 990, 1320].forEach(function (f, i) { beep(f, i * 0.12, 0.14, 'square', 0.07); });
+    coins += Math.round(gameScore / 100);
+    setTimeout(cleanup, 2600);
+  }
+
+  function lose() {
+    if (!gameOn) return;
+    gameOn = false;
+    clearTimeout(marchT);
+    playBoom();
+    alertEl.textContent = 'GAME OVER — GEM INSTALL COMPANY';
+    alertEl.classList.add('on');
+    document.querySelectorAll('.fighter').forEach(function (f, i) {
+      setTimeout(function () { f.classList.add('falling'); }, i * 60);
+    });
+    setTimeout(function () {
+      document.querySelectorAll('.fighter').forEach(function (f) { f.classList.remove('falling'); });
+    }, 2600);
+    setTimeout(cleanup, 2600);
+  }
+
+  function cleanup() {
+    gameOn = false;
+    clearTimeout(marchT);
+    if (rafId) cancelAnimationFrame(rafId);
+    fleetEl.classList.remove('on'); fleetEl.innerHTML = '';
+    alertEl.classList.remove('on');
+    alertEl.style.color = ''; alertEl.style.textShadow = '';
+    alertEl.textContent = '⚠ THEY CAME FOR THE VOCABULARY ⚠';
+    var vanEl = document.getElementById('van');
+    if (vanEl) vanEl.style.visibility = '';
+    var press = document.querySelector('.hero .press');
+    if (press) press.style.visibility = '';
+    bullets = []; invaders = []; ship = null; keysHeld = {};
+    invading = false;
+    updateScore();
+  }
+
+  /* ---------- boot ---------- */
+  select('account', false);
+})();
+</script>
+</body>
+</html>
