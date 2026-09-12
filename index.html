@@ -46,7 +46,7 @@
   .chrome .score .cyan { color: #27e0ff; }
   .chrome .ctrl { display: flex; gap: 4px; margin-left: auto; }
   .chrome .ctrl button[aria-pressed="true"] { color: #6a6a8a; }
-  @media (max-width: 720px) { .chrome .score, .roster { display: none; } }
+  @media (max-width: 720px) { .chrome .score { display: none; } }
 
   .hero { text-align: center; padding: 38px 20px 10px; position: relative; }
   h1 {
@@ -68,6 +68,7 @@
   .select { padding: 26px clamp(20px, 4vw, 64px) 10px; scroll-margin-top: 70px; }
   .select h2 { font-family: "Press Start 2P", "IBM Plex Mono", monospace; font-size: 13px; color: #ff2d78; text-align: center; margin: 0 0 20px; letter-spacing: 2px; }
   .roster { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+  @media (max-width: 720px) { .roster { display: none; } }
   .fighter {
     width: 118px; padding: 14px 6px 10px; border: 3px solid #27e0ff; background: #0a0416; cursor: pointer;
     text-align: center; color: #27e0ff; box-shadow: 0 0 12px rgba(39,224,255,.3) inset;
