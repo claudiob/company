@@ -170,6 +170,12 @@
       <circle cx="256" cy="140" r="76"/>
       <path d="M96 456 Q96 288 256 288 Q416 288 416 456"/>
     </g>
+    <g id="i-technician" fill="none" stroke="currentColor" stroke-width="28" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="256" cy="196" r="62"/>
+      <path d="M116 456 Q116 322 256 322 Q396 322 396 456"/>
+      <path d="M156 136 Q166 56 256 56 Q346 56 356 136"/>
+      <path d="M126 136 L386 136"/>
+    </g>
     <g id="i-visit" fill="none" stroke="currentColor" stroke-width="28" stroke-linecap="round" stroke-linejoin="round">
       <path d="M86 346 L46 346 L46 176 Q46 156 66 156 L286 156 L336 168 L416 246 L456 260 Q466 264 466 296 L466 346 L426 346"/>
       <path d="M186 346 L326 346"/>
@@ -240,6 +246,7 @@
       "account.business                         " + C('# => #<Acme::Business>') + '\n' +
       "account.jobs.past(3.months)              " + C('# => #<Acme::Jobs>') + '\n' +
       "account.visits.upcoming(1.day)           " + C('# => #<Acme::Visits>') + '\n' +
+      "account.technicians                      " + C('# => #<Acme::Technicians>, the crew') + '\n' +
       "account.leads                            " + C('# => #<Acme::Leads>, create files one') },
     { id: 'business', name: 'BUSINESS', code:
       "business = account.business              " + C('# => #<Acme::Business>') + '\n' +
@@ -282,13 +289,24 @@
       "customer.email                           " + C("# => 'jane@example.com'") + '\n' +
       "customer.phone                           " + C("# => '5555555666'") },
     { id: 'visit', name: 'VISIT', code:
-      "visits = account.visits.upcoming(1.day)  " + C('# => #<Acme::Visits>') + '\n' +
+      "visits = account.visits.upcoming(1.day)  " + C('# => #<Acme::Visits>, any booked time') + '\n' +
       "visit = visits.first                     " + C('# => #<Acme::Visit>') + '\n' +
       "visit.description                        " + C("# => 'Service appointment'") + '\n' +
-      "visit.starts_at                          " + C('# => 2026-09-10 01:00:00 UTC') + '\n' +
-      "visit.ends_at                            " + C('# => 2026-09-10 02:00:00 UTC') + '\n' +
+      "visit.starts_at, visit.ends_at           " + C('# => 2026-09-10 01:00:00 UTC, and its end') + '\n' +
       "visit.anytime?                           " + C('# => false') + '\n' +
-      "visit.job                                " + C('# => job, where the stop happens') },
+      "visit.job                                " + C('# => job, or nil where a lead owns the stop') + '\n' +
+      "visit.lead                               " + C('# => lead, or nil where a job owns it') + '\n' +
+      "visit.technicians                        " + C('# => [#<Acme::Technician>, ...]') + '\n' +
+      "visits.for_jobs, visits.for_leads        " + C('# => one kind of stop or the other') },
+    { id: 'technician', name: 'TECHNICIAN', code:
+      "crew = account.technicians               " + C('# => #<Acme::Technicians>') + '\n' +
+      "technician = crew.first                  " + C('# => #<Acme::Technician>') + '\n' +
+      "technician.id                            " + C("# => 't1'") + '\n' +
+      "technician.name                          " + C("# => 'Grace'") + '\n' +
+      "technician.surname                       " + C("# => 'Hopper'") + '\n' +
+      '\n' +
+      "week = account.visits.between(mon, sun)  " + C('# => the schedule, both kinds of stop') + '\n' +
+      "week.assigned_to(technician).ids         " + C("# => ['v1', ...], one person's week") },
     { id: 'lead', name: 'LEAD', code:
       "lead = account.leads.create name: 'Jane', surname: 'Qi',\n" +
       "  phone: '5555555666', email: 'jane@example.com',\n" +
