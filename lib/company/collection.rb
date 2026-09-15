@@ -24,7 +24,11 @@ module Company
     # that cannot walks the list and keeps what the technician turns out to be on.
     # @param technician [Technician] whoever the work is booked for.
     # @return [Collection] the same list, narrowed to what they are assigned to.
-    def assigned_to(technician) = Selection.new collection: self, technician: technician
+    def assigned_to(technician)
+      Selection.new(collection: self) do |record|
+        record.technicians.any? { |each| each.id == technician.id }
+      end
+    end
 
     # @return [Array<String>] ID of every record, the list walked; a platform with a cheaper
     #   way to ask answers it that way instead.

@@ -70,7 +70,7 @@ customer.surname                         # => 'Qi'
 customer.email                           # => 'jane@example.com'
 customer.phone                           # => '5555555666'
 
-visits = account.visits.upcoming(1.day)  # => #<Acme::Visits>
+visits = account.visits.upcoming(1.day)  # => #<Acme::Visits>, stops of jobs and of leads
 visits.ids                               # => ['v1', 'v2', ...]
 
 visit = visits.first                     # => #<Acme::Visit>
@@ -79,8 +79,19 @@ visit.description                        # => 'Service appointment'
 visit.starts_at                          # => 2026-09-10 01:00:00 UTC
 visit.ends_at                            # => 2026-09-10 02:00:00 UTC
 visit.anytime?                           # => false
-visit.job                                # => job
+visit.job                                # => job, or nil where the stop is a lead's
+visit.lead                               # => lead, or nil where the stop is a job's
 visit.technicians                        # => [#<Acme::Technician>, ...]
+
+visits.for_jobs                          # => only the stops of jobs
+visits.for_leads                         # => only the stops of leads
+
+booked = account.visits.create name: 'Jane', surname: 'Qi', phone: '5555555666',
+  email: 'jane@example.com', address: { street: '100 Acme Circle', zip: '98920' },
+  description: 'Repair', notes: 'Estimate $20-$30', source: 'Website',
+  starts_at: 1.day.from_now, ends_at: 1.day.from_now + 1.hour, technicians: [technician]
+booked.lead                              # => #<Acme::Lead>, opened with the stop
+booked.lead.location                     # => #<Acme::Location>, where to go
 
 technician = account.technicians.first   # => #<Acme::Technician>
 technician.id                            # => 't1'
@@ -99,9 +110,15 @@ lead.customer                            # => #<Acme::Customer>
 
 A moment reads as a `Time`, an amount as dollars in a `BigDecimal`, a phone as the ten digits to
 dial, and a field the platform holds nothing for as nil. A list is walked a page at a time, as
-far as it goes or narrowed to a window measured from now, and to the technician the records are
-booked for. The two narrow the same list in either order, so one technician's week reads the
-same whichever is asked for first.
+far as it goes or narrowed: to a window measured from now, to the technician the records are
+booked for, or to one kind of stop. The narrowings compose in any order, so one technician's
+week reads the same whichever is asked for first.
+
+A visit is any booked time, not only work that is already a job. A stop to look at something
+nobody has priced yet -- Jobber calls it an assessment, Housecall Pro an estimate -- is a visit
+that names a `lead` and no `job`, and it occupies the technician's day exactly as a job's stop
+does. `quote` stays the price, which is the other half of what Housecall Pro files as one
+record.
 
 ## Answering as a gem
 
@@ -126,9 +143,10 @@ end
 
 `Company::Business.node_keys` then answers `[:id, :name, :phone_number]`: exactly what to ask
 the platform for. A reader the gem leaves out raises `NotImplementedError` naming the gem; leads
-it leaves out refuse to file one. `assigned_to` a gem leaves out still answers: the list is
-walked and the records whose `technicians` name the one asked for come through, so only a
-platform that can put the question to its server writes the method. The least a gem writes is under `test/acme`, and the test that
+it leaves out refuse to file one, and so do the visits. `assigned_to`, `for_jobs` and
+`for_leads` a gem leaves out still answer: `Company::Selection` walks the list and lets through
+what the rule keeps, so only a platform that can put the question to its server writes the
+method, and only to save the requests the walk would spend. The least a gem writes is under `test/acme`, and the test that
 runs every reader through it, `test/company/acme_test.rb`, reads as a tutorial.
 
 ## Errors

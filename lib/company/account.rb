@@ -9,7 +9,7 @@ module Company
     # @return [Collection] jobs of the business, each a {Job}; a platform may also `find` one.
     def jobs = unanswered :jobs
 
-    # @return [Collection] visits of the business, each a {Visit}; a platform may also `find` one.
+    # @return [Visits] visits of the business, each a {Visit}; a platform may also `find` one.
     def visits = unanswered :visits
 
     # @return [Collection] technicians of the business, each a {Technician}.

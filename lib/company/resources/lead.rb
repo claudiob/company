@@ -6,5 +6,8 @@ module Company
 
     # @return [Customer, nil] customer the lead was filed for, where they came back beside it.
     def customer = record Customer, :customer
+
+    # @return [Location, nil] where the work would happen, where the platform named it.
+    def location = record Location, :location
   end
 end

@@ -1,5 +1,6 @@
 module Company
-  # One stop of a job: when the work is scheduled to happen, where the job does.
+  # One stop of a job, or of a lead where the work is still being looked at: when somebody is
+  # booked to be somewhere, and what they are booked for.
   class Visit < Resource
     # What every visit reads, by the vocabulary's names.
     def self.attributes = %i[id description starts_at ends_at anytime]
@@ -16,8 +17,11 @@ module Company
     # @return [Boolean, nil] whether the visit may happen any time that day rather than at an hour.
     def anytime? = attribute :anytime
 
-    # @return [Job, nil] job the stop belongs to, where it came back beside the visit.
+    # @return [Job, nil] job the stop belongs to, nil where the stop is a lead's.
     def job = record Job, :job
+
+    # @return [Lead, nil] lead the stop belongs to, nil where the stop is a job's.
+    def lead = record Lead, :lead
 
     # @return [Array<Technician>] whoever the stop is booked for, where the platform names them.
     def technicians = records Technician, :technicians

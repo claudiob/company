@@ -20,7 +20,7 @@ class AcmeScheduleTest < Minitest::Test
     alan = @account.technicians.find { |each| each.id == 'technician-2' }
 
     assert_equal %w[technician-1 technician-2], @account.visits.upcoming.first.technicians.map(&:id)
-    assert_equal %w[visit-2], @account.visits.assigned_to(alan).ids
+    assert_equal %w[visit-2 visit-3], @account.visits.assigned_to(alan).ids
     assert_equal %w[visit-1 visit-2], @account.visits.assigned_to(@account.technicians.first).ids
   end
 
