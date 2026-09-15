@@ -9,4 +9,4 @@ require_relative '../lib/company'
 require 'active_support/core_ext/integer/time'
 
 # A reference gem, written with nothing but the hooks a real one writes.
-%w[business jobs visits leads account].each { |file| require_relative "acme/#{file}" }
+%w[business jobs technicians visits leads account].each { |file| require_relative "acme/#{file}" }

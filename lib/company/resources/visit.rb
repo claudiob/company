@@ -18,5 +18,8 @@ module Company
 
     # @return [Job, nil] job the stop belongs to, where it came back beside the visit.
     def job = record Job, :job
+
+    # @return [Array<Technician>] whoever the stop is booked for, where the platform names them.
+    def technicians = records Technician, :technicians
   end
 end

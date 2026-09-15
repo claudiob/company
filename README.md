@@ -80,6 +80,15 @@ visit.starts_at                          # => 2026-09-10 01:00:00 UTC
 visit.ends_at                            # => 2026-09-10 02:00:00 UTC
 visit.anytime?                           # => false
 visit.job                                # => job
+visit.technicians                        # => [#<Acme::Technician>, ...]
+
+technician = account.technicians.first   # => #<Acme::Technician>
+technician.id                            # => 't1'
+technician.name                          # => 'Grace'
+technician.surname                       # => 'Hopper'
+
+week = account.visits.between(monday, sunday).assigned_to(technician)
+week.ids                                 # => ['v1', 'v2', ...]
 
 lead = account.leads.create name: 'Jane', surname: 'Qi', phone: '5555555666',
   email: 'jane@example.com', address: { street: '100 Acme Circle', zip: '98920' },
@@ -90,7 +99,9 @@ lead.customer                            # => #<Acme::Customer>
 
 A moment reads as a `Time`, an amount as dollars in a `BigDecimal`, a phone as the ten digits to
 dial, and a field the platform holds nothing for as nil. A list is walked a page at a time, as
-far as it goes or narrowed to a window measured from now.
+far as it goes or narrowed to a window measured from now, and to the technician the records are
+booked for. The two narrow the same list in either order, so one technician's week reads the
+same whichever is asked for first.
 
 ## Answering as a gem
 
@@ -115,7 +126,9 @@ end
 
 `Company::Business.node_keys` then answers `[:id, :name, :phone_number]`: exactly what to ask
 the platform for. A reader the gem leaves out raises `NotImplementedError` naming the gem; leads
-it leaves out refuse to file one. The least a gem writes is under `test/acme`, and the test that
+it leaves out refuse to file one. `assigned_to` a gem leaves out still answers: the list is
+walked and the records whose `technicians` name the one asked for come through, so only a
+platform that can put the question to its server writes the method. The least a gem writes is under `test/acme`, and the test that
 runs every reader through it, `test/company/acme_test.rb`, reads as a tutorial.
 
 ## Errors

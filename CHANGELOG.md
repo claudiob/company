@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 For more information about changelogs, check [Keep a Changelog](http://keepachangelog.com) and
 [Vandamme](http://tech-angels.github.io/vandamme).
 
+## Unreleased
+
+* [Feature] `Company::Technician` -- id, name, surname -- a person the business sends out, and
+  `Company::Account#technicians`, the crew of the business
+* [Feature] `Company::Visit#technicians`, whoever the stop is booked for
+* [Feature] `Company::Collection#assigned_to(technician)`, the same list narrowed to what one
+  technician is on. A gem answers it where its platform can put the question to the server;
+  where none can, `Company::Selection` walks the list and keeps what the technician turns out
+  to be on, so a week of one person's timeslots reads the same on every platform. Narrowing by
+  technician and narrowing to a window commute
+
 ## 1.0.0 - 2026-09-09
 
 * [Feature] `Company::Account`, the gateway a set of credentials opens: a gem subclasses it

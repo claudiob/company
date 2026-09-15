@@ -9,6 +9,8 @@ module Acme
 
     def visits = Visits.new
 
+    def technicians = Technicians.new
+
     def leads = Leads.new
   end
 end

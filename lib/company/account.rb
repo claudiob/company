@@ -12,6 +12,9 @@ module Company
     # @return [Collection] visits of the business, each a {Visit}; a platform may also `find` one.
     def visits = unanswered :visits
 
+    # @return [Collection] technicians of the business, each a {Technician}.
+    def technicians = unanswered :technicians
+
     # @return [Leads] leads of the business: `create` files one, where the platform takes leads.
     def leads = Leads.new
 
