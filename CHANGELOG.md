@@ -7,6 +7,11 @@ For more information about changelogs, check [Keep a Changelog](http://keepachan
 
 ## 2.1.0 - 2026-09-15
 
+* [Feature] `Company::Collection#includes(*names)`, what to bring back beside each record. A
+  platform that charges for what a row carries answers it by asking for more; one that hands a
+  record over whole has nothing to ask for and answers the same list. Either way a caller names
+  what it reads without knowing which kind of platform it is talking to, which a caller sharing
+  one code path across two of them could not do before
 * [Feature] `Company::Visit#location`, where the stop is. A schedule is read to know who is
   where and when, so a visit says where without being asked what it was booked for, and a
   caller no longer reaches through `visit.job` for an address -- which a stop booked against a

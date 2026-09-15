@@ -20,6 +20,13 @@ module Company
       between within && now - within, now
     end
 
+    # What to bring back beside each record, for a platform that charges for the asking. One
+    # that answers a record whole has nothing to ask for and answers the same list, so a caller
+    # names what it reads without knowing which kind of platform it is talking to.
+    # @param names [Array<Symbol, Hash>] what to read beside each record, as the gem names them.
+    # @return [Collection] the same list, bringing those back where that costs anything.
+    def includes(*names) = self
+
     # A platform that can ask its server for one technician's work narrows the list there; one
     # that cannot walks the list and keeps what the technician turns out to be on.
     # @param technician [Technician] whoever the work is booked for.

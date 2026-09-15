@@ -86,6 +86,7 @@ visit.technicians                        # => [#<Acme::Technician>, ...]
 
 visits.for_jobs                          # => only the stops of jobs
 visits.for_leads                         # => only the stops of leads
+visits.includes(location: :customer)     # => the same list, whatever the platform charges
 
 booked = account.visits.create name: 'Jane', surname: 'Qi', phone: '5555555666',
   email: 'jane@example.com', address: { street: '100 Acme Circle', zip: '98920' },
@@ -148,8 +149,10 @@ end
 
 `Company::Business.node_keys` then answers `[:id, :name, :phone_number]`: exactly what to ask
 the platform for. A reader the gem leaves out raises `NotImplementedError` naming the gem; leads
-it leaves out refuse to file one, and so do the visits. `assigned_to`, `for_jobs` and
-`for_leads` a gem leaves out still answer: `Company::Selection` walks the list and lets through
+it leaves out refuse to file one, and so do the visits. `includes` a gem leaves out answers the
+same list: a platform that hands a record over whole has nothing to bring back beside it, so a
+caller names what it reads without knowing which kind of platform it is talking to. `assigned_to`,
+`for_jobs` and `for_leads` a gem leaves out still answer: `Company::Selection` walks the list and lets through
 what the rule keeps, so only a platform that can put the question to its server writes the
 method, and only to save the requests the walk would spend. The least a gem writes is under `test/acme`, and the test that
 runs every reader through it, `test/company/acme_test.rb`, reads as a tutorial.

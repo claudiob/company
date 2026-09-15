@@ -26,6 +26,15 @@ class AcmeScheduleTest < Minitest::Test
     assert_equal %w[visit-1 visit-2 visit-4], @account.visits.assigned_to(grace).ids
   end
 
+  # One platform charges for what a row carries and another answers a record whole, so a caller
+  # names what it reads either way and a gem with nothing to fetch hands back the same list.
+  def test_asking_for_more_beside_each_record_costs_a_platform_that_charges_and_no_other
+    week = @account.visits.upcoming(1.week)
+
+    assert_equal week.ids, week.includes(location: :customer).ids
+    assert_equal %w[technician-1 technician-2], @account.technicians.includes(:anything).ids
+  end
+
   # Narrowing by technician and narrowing to a window commute, so a caller may ask in either
   # order and read the same week back.
   def test_a_technician_and_a_window_narrow_the_same_list_in_either_order
