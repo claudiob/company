@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 For more information about changelogs, check [Keep a Changelog](http://keepachangelog.com) and
 [Vandamme](http://tech-angels.github.io/vandamme).
 
+## 2.1.0 - 2026-09-15
+
+* [Feature] `Company::Visit#location`, where the stop is. A schedule is read to know who is
+  where and when, so a visit says where without being asked what it was booked for, and a
+  caller no longer reaches through `visit.job` for an address -- which a stop booked against a
+  lead, or an hour blocked out against nothing, could never answer. `job` and `lead` say why a
+  visit exists and either may be absent; `location` may be too, for booked time that is nowhere
+
 ## 2.0.0 - 2026-09-15
 
 * [Breaking change] `Company::Selection` takes the rule to keep records by as a block rather

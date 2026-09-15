@@ -9,14 +9,29 @@ class AcmeVisitsTest < Minitest::Test
   def test_the_visits_are_walked_the_same_way_and_name_their_job
     visit = @account.visits.upcoming(2.weeks).first
 
-    assert_equal %w[visit-2 visit-3], @account.visits.upcoming.ids
+    assert_equal %w[visit-2 visit-3 visit-4], @account.visits.upcoming.ids
     assert_nil visit.description
     assert_in_delta 3.days.from_now, visit.starts_at, 60
     assert_nil visit.ends_at
     assert visit.anytime?
     assert_equal 'job-2', visit.job.id
     assert_equal 'Fix the sink', @account.visits.past.first.description
-    assert_equal %w[visit-1 visit-2 visit-3], @account.visits.ids
+    assert_equal %w[visit-1 visit-2 visit-3 visit-4], @account.visits.ids
+  end
+
+  # A schedule is read to know who is where, so a stop says where without being asked what it
+  # was booked for. An hour blocked out is booked time too, and it is nowhere.
+  def test_a_visit_says_where_it_is_whatever_it_was_booked_for
+    booked = @account.visits.for_jobs.first
+    blocked = @account.visits.find { |visit| visit.id == 'visit-4' }
+
+    assert_equal '1 Main St', booked.location.street
+    assert_equal '3 Main St', @account.visits.for_leads.first.location.street
+    assert_equal 'Dentist', blocked.description
+    assert_nil blocked.location
+    assert_nil blocked.job
+    assert_nil blocked.lead
+    assert_equal %w[technician-1], blocked.technicians.map(&:id)
   end
 
   # A stop of a lead is the look at work nobody has priced yet: it names the lead and no job,
@@ -43,7 +58,7 @@ class AcmeVisitsTest < Minitest::Test
       starts_at: starts_at, ends_at: starts_at + 1.hour,
       technicians: @account.technicians.to_a
 
-    assert_equal 'visit-4', visit.id
+    assert_equal 'visit-5', visit.id
     assert_equal starts_at, visit.starts_at
     assert_equal %w[technician-1 technician-2], visit.technicians.map(&:id)
     assert_equal 'lead-3', visit.lead.id

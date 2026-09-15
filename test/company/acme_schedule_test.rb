@@ -21,7 +21,9 @@ class AcmeScheduleTest < Minitest::Test
 
     assert_equal %w[technician-1 technician-2], @account.visits.upcoming.first.technicians.map(&:id)
     assert_equal %w[visit-2 visit-3], @account.visits.assigned_to(alan).ids
-    assert_equal %w[visit-1 visit-2], @account.visits.assigned_to(@account.technicians.first).ids
+    grace = @account.technicians.first
+
+    assert_equal %w[visit-1 visit-2 visit-4], @account.visits.assigned_to(grace).ids
   end
 
   # Narrowing by technician and narrowing to a window commute, so a caller may ask in either
@@ -29,8 +31,8 @@ class AcmeScheduleTest < Minitest::Test
   def test_a_technician_and_a_window_narrow_the_same_list_in_either_order
     grace = @account.technicians.first
 
-    assert_equal %w[visit-2], @account.visits.upcoming(1.week).assigned_to(grace).ids
-    assert_equal %w[visit-2], @account.visits.assigned_to(grace).upcoming(1.week).ids
+    assert_equal %w[visit-2 visit-4], @account.visits.upcoming(1.week).assigned_to(grace).ids
+    assert_equal %w[visit-2 visit-4], @account.visits.assigned_to(grace).upcoming(1.week).ids
     assert_equal %w[visit-1], @account.visits.assigned_to(grace).past.ids
   end
 end

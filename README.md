@@ -79,8 +79,9 @@ visit.description                        # => 'Service appointment'
 visit.starts_at                          # => 2026-09-10 01:00:00 UTC
 visit.ends_at                            # => 2026-09-10 02:00:00 UTC
 visit.anytime?                           # => false
-visit.job                                # => job, or nil where the stop is a lead's
-visit.lead                               # => lead, or nil where the stop is a job's
+visit.location                           # => #<Acme::Location>, or nil where it is nowhere
+visit.job                                # => job, or nil where no job was booked for it
+visit.lead                               # => lead, or nil where no lead was booked for it
 visit.technicians                        # => [#<Acme::Technician>, ...]
 
 visits.for_jobs                          # => only the stops of jobs
@@ -114,10 +115,14 @@ far as it goes or narrowed: to a window measured from now, to the technician the
 booked for, or to one kind of stop. The narrowings compose in any order, so one technician's
 week reads the same whichever is asked for first.
 
-A visit is any booked time, not only work that is already a job. A stop to look at something
-nobody has priced yet -- Jobber calls it an assessment, Housecall Pro an estimate -- is a visit
-that names a `lead` and no `job`, and it occupies the technician's day exactly as a job's stop
-does. `quote` stays the price, which is the other half of what Housecall Pro files as one
+A visit is any booked time: somebody is somewhere for an hour. That is what a schedule is read
+for -- who is where, and when -- so a visit says where it is without being asked what it was
+booked for, and a caller never reaches through a job to find an address.
+
+`job` and `lead` answer *why*, and either may be absent. A stop to look at something nobody has
+priced yet -- Jobber calls it an assessment, Housecall Pro an estimate -- names a `lead` and no
+`job`. An hour blocked out on a calendar names neither, and occupies the technician's day just
+the same. `quote` stays the price, which is the other half of what Housecall Pro files as one
 record.
 
 ## Answering as a gem
