@@ -13,10 +13,10 @@ To install on your system, run
 
 To use inside a bundled Ruby project, add this line to the `Gemfile`:
 
-    gem 'company', '~> 1.0'
+    gem 'company', '~> 2.0'
 
 Semantic Versioning promises that `~> major.minor` never crosses a breaking change, so the pin
-takes every 1.x release and stops short of 2.0.
+takes every 2.x release and stops short of 3.0.
 
 ## How it reads
 

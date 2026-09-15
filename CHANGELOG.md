@@ -5,8 +5,19 @@ All notable changes to this project will be documented in this file.
 For more information about changelogs, check [Keep a Changelog](http://keepachangelog.com) and
 [Vandamme](http://tech-angels.github.io/vandamme).
 
-## Unreleased
+## 2.0.0 - 2026-09-15
 
+* [Breaking change] `Company::Selection` takes the rule to keep records by as a block rather
+  than a technician, so one class answers `assigned_to`, `for_jobs` and `for_leads`. A gem
+  building one by hand passes a block where it passed `technician:`
+* [Feature] `Company::Technician` -- id, name, surname -- a person the business sends out, and
+  `Company::Account#technicians`, the crew of the business
+* [Feature] `Company::Visit#technicians`, whoever the stop is booked for
+* [Feature] `Company::Collection#assigned_to(technician)`, the same list narrowed to what one
+  technician is on. A gem answers it where its platform can put the question to the server;
+  where none can, `Company::Selection` walks the list and keeps what the technician turns out
+  to be on, so a week of one person's timeslots reads the same on every platform. Narrowing by
+  technician and narrowing to a window commute
 * [Feature] `Company::Visit#lead`, the lead a stop belongs to where it belongs to no job. A
   visit is any booked time now, not only a job's: the stop to look at work nobody has priced
   -- an assessment on Jobber, an estimate on Housecall Pro -- names a `lead` and no `job`, and
@@ -16,18 +27,6 @@ For more information about changelogs, check [Keep a Changelog](http://keepachan
 * [Feature] `Company::Visits`, what a gem's list of visits subclasses: `create` books a stop
   against a lead, taking the words `Leads#create` takes plus `starts_at:`, `ends_at:` and
   `technicians:`, and `for_jobs` and `for_leads` narrow the list to one kind of stop
-* [Breaking change] `Company::Selection` takes the rule to keep records by as a block rather
-  than a technician, so one class answers `assigned_to`, `for_jobs` and `for_leads`. A gem
-  building one by hand passes a block where it passed `technician:`
-
-* [Feature] `Company::Technician` -- id, name, surname -- a person the business sends out, and
-  `Company::Account#technicians`, the crew of the business
-* [Feature] `Company::Visit#technicians`, whoever the stop is booked for
-* [Feature] `Company::Collection#assigned_to(technician)`, the same list narrowed to what one
-  technician is on. A gem answers it where its platform can put the question to the server;
-  where none can, `Company::Selection` walks the list and keeps what the technician turns out
-  to be on, so a week of one person's timeslots reads the same on every platform. Narrowing by
-  technician and narrowing to a window commute
 
 ## 1.0.0 - 2026-09-09
 
