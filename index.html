@@ -299,6 +299,13 @@
       "visit.job, visit.lead                    " + C('# => why, and either may be nothing') + '\n' +
       "visits.for_jobs, visits.for_leads        " + C('# => one kind of stop or the other') + '\n' +
       "visits.includes(location: :customer)     " + C('# => free where a platform charges nothing') },
+    { id: 'window', name: 'WINDOW', code:
+      "free = account.windows.upcoming(1.week)  " + C('# => #<Acme::Windows>, the hours nobody took') + '\n' +
+      "window = free.of(technician).first       " + C('# => #<Acme::Window>') + '\n' +
+      "window.starts_at, window.ends_at         " + C('# => 2026-09-17 13:00:00 UTC, and its end') + '\n' +
+      '\n' +
+      "                                         " + C('# as long as the pro is free, never cut') + '\n' +
+      "                                         " + C('# into slots: only an offer knows how long') },
     { id: 'technician', name: 'TECHNICIAN', code:
       "crew = account.technicians               " + C('# => #<Acme::Technicians>') + '\n' +
       "technician = crew.first                  " + C('# => #<Acme::Technician>') + '\n' +
@@ -307,7 +314,7 @@
       "technician.surname                       " + C("# => 'Hopper'") + '\n' +
       '\n' +
       "week = account.visits.between(mon, sun)  " + C('# => the schedule, both kinds of stop') + '\n' +
-      "week.assigned_to(technician).ids         " + C("# => ['v1', ...], one person's week") },
+      "week.of(technician).ids                  " + C("# => ['v1', ...], one person's week") },
     { id: 'lead', name: 'LEAD', code:
       "lead = account.leads.create name: 'Jane', surname: 'Qi',\n" +
       "  phone: '5555555666', email: 'jane@example.com',\n" +
