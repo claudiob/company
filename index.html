@@ -294,10 +294,11 @@
       "visit.description                        " + C("# => 'Service appointment'") + '\n' +
       "visit.starts_at, visit.ends_at           " + C('# => 2026-09-10 01:00:00 UTC, and its end') + '\n' +
       "visit.anytime?                           " + C('# => false') + '\n' +
-      "visit.job                                " + C('# => job, or nil where a lead owns the stop') + '\n' +
-      "visit.lead                               " + C('# => lead, or nil where a job owns it') + '\n' +
+      "visit.location                           " + C('# => where it is, without asking why') + '\n' +
       "visit.technicians                        " + C('# => [#<Acme::Technician>, ...]') + '\n' +
-      "visits.for_jobs, visits.for_leads        " + C('# => one kind of stop or the other') },
+      "visit.job, visit.lead                    " + C('# => why, and either may be nothing') + '\n' +
+      "visits.for_jobs, visits.for_leads        " + C('# => one kind of stop or the other') + '\n' +
+      "visits.includes(location: :customer)     " + C('# => free where a platform charges nothing') },
     { id: 'technician', name: 'TECHNICIAN', code:
       "crew = account.technicians               " + C('# => #<Acme::Technicians>') + '\n' +
       "technician = crew.first                  " + C('# => #<Acme::Technician>') + '\n' +

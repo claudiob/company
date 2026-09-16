@@ -1,0 +1,483 @@
+{
+  "simplecov_history": {
+    "format_version": 1,
+    "entries": [
+      {
+        "created_at": "2026-09-15T23:24:58Z",
+        "branch": "visit_location",
+        "commit": "86bccd8ab1736b98280134c29afb77ce3d789a73",
+        "totals": {
+          "line": 100.0
+        },
+        "groups": {},
+        "files": {
+          "lib/company.rb": {
+            "line": 100.0
+          },
+          "lib/company/account.rb": {
+            "line": 100.0
+          },
+          "lib/company/collection.rb": {
+            "line": 100.0
+          },
+          "lib/company/collections/leads.rb": {
+            "line": 100.0
+          },
+          "lib/company/collections/visits.rb": {
+            "line": 100.0
+          },
+          "lib/company/error.rb": {
+            "line": 100.0
+          },
+          "lib/company/errors/throttled.rb": {
+            "line": 100.0
+          },
+          "lib/company/phone.rb": {
+            "line": 100.0
+          },
+          "lib/company/resource.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/business.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/customer.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/job.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/lead.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/line.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/location.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/quote.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/technician.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/visit.rb": {
+            "line": 100.0
+          },
+          "lib/company/selection.rb": {
+            "line": 100.0
+          }
+        }
+      },
+      {
+        "created_at": "2026-09-15T23:25:09Z",
+        "branch": "visit_location",
+        "commit": "86bccd8ab1736b98280134c29afb77ce3d789a73",
+        "totals": {
+          "line": 100.0
+        },
+        "groups": {},
+        "files": {
+          "lib/company.rb": {
+            "line": 100.0
+          },
+          "lib/company/account.rb": {
+            "line": 100.0
+          },
+          "lib/company/collection.rb": {
+            "line": 100.0
+          },
+          "lib/company/collections/leads.rb": {
+            "line": 100.0
+          },
+          "lib/company/collections/visits.rb": {
+            "line": 100.0
+          },
+          "lib/company/error.rb": {
+            "line": 100.0
+          },
+          "lib/company/errors/throttled.rb": {
+            "line": 100.0
+          },
+          "lib/company/phone.rb": {
+            "line": 100.0
+          },
+          "lib/company/resource.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/business.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/customer.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/job.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/lead.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/line.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/location.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/quote.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/technician.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/visit.rb": {
+            "line": 100.0
+          },
+          "lib/company/selection.rb": {
+            "line": 100.0
+          }
+        }
+      },
+      {
+        "created_at": "2026-09-15T23:25:17Z",
+        "branch": "visit_location",
+        "commit": "86bccd8ab1736b98280134c29afb77ce3d789a73",
+        "totals": {
+          "line": 100.0
+        },
+        "groups": {},
+        "files": {
+          "lib/company.rb": {
+            "line": 100.0
+          },
+          "lib/company/account.rb": {
+            "line": 100.0
+          },
+          "lib/company/collection.rb": {
+            "line": 100.0
+          },
+          "lib/company/collections/leads.rb": {
+            "line": 100.0
+          },
+          "lib/company/collections/visits.rb": {
+            "line": 100.0
+          },
+          "lib/company/error.rb": {
+            "line": 100.0
+          },
+          "lib/company/errors/throttled.rb": {
+            "line": 100.0
+          },
+          "lib/company/phone.rb": {
+            "line": 100.0
+          },
+          "lib/company/resource.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/business.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/customer.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/job.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/lead.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/line.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/location.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/quote.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/technician.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/visit.rb": {
+            "line": 100.0
+          },
+          "lib/company/selection.rb": {
+            "line": 100.0
+          }
+        }
+      },
+      {
+        "created_at": "2026-09-15T23:25:23Z",
+        "branch": "visit_location",
+        "commit": "86bccd8ab1736b98280134c29afb77ce3d789a73",
+        "totals": {
+          "line": 100.0
+        },
+        "groups": {},
+        "files": {
+          "lib/company.rb": {
+            "line": 100.0
+          },
+          "lib/company/account.rb": {
+            "line": 100.0
+          },
+          "lib/company/collection.rb": {
+            "line": 100.0
+          },
+          "lib/company/collections/leads.rb": {
+            "line": 100.0
+          },
+          "lib/company/collections/visits.rb": {
+            "line": 100.0
+          },
+          "lib/company/error.rb": {
+            "line": 100.0
+          },
+          "lib/company/errors/throttled.rb": {
+            "line": 100.0
+          },
+          "lib/company/phone.rb": {
+            "line": 100.0
+          },
+          "lib/company/resource.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/business.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/customer.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/job.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/lead.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/line.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/location.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/quote.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/technician.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/visit.rb": {
+            "line": 100.0
+          },
+          "lib/company/selection.rb": {
+            "line": 100.0
+          }
+        }
+      },
+      {
+        "created_at": "2026-09-15T23:25:45Z",
+        "branch": "visit_location",
+        "commit": "86bccd8ab1736b98280134c29afb77ce3d789a73",
+        "totals": {
+          "line": 100.0
+        },
+        "groups": {},
+        "files": {
+          "lib/company.rb": {
+            "line": 100.0
+          },
+          "lib/company/account.rb": {
+            "line": 100.0
+          },
+          "lib/company/collection.rb": {
+            "line": 100.0
+          },
+          "lib/company/collections/leads.rb": {
+            "line": 100.0
+          },
+          "lib/company/collections/visits.rb": {
+            "line": 100.0
+          },
+          "lib/company/error.rb": {
+            "line": 100.0
+          },
+          "lib/company/errors/throttled.rb": {
+            "line": 100.0
+          },
+          "lib/company/phone.rb": {
+            "line": 100.0
+          },
+          "lib/company/resource.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/business.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/customer.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/job.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/lead.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/line.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/location.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/quote.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/technician.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/visit.rb": {
+            "line": 100.0
+          },
+          "lib/company/selection.rb": {
+            "line": 100.0
+          }
+        }
+      },
+      {
+        "created_at": "2026-09-15T23:57:00Z",
+        "branch": "visit_location",
+        "commit": "0c6bddb8bcdeb3c5486d2d7975af826dc565496a",
+        "totals": {
+          "line": 100.0
+        },
+        "groups": {},
+        "files": {
+          "lib/company.rb": {
+            "line": 100.0
+          },
+          "lib/company/account.rb": {
+            "line": 100.0
+          },
+          "lib/company/collection.rb": {
+            "line": 100.0
+          },
+          "lib/company/collections/leads.rb": {
+            "line": 100.0
+          },
+          "lib/company/collections/visits.rb": {
+            "line": 100.0
+          },
+          "lib/company/error.rb": {
+            "line": 100.0
+          },
+          "lib/company/errors/throttled.rb": {
+            "line": 100.0
+          },
+          "lib/company/phone.rb": {
+            "line": 100.0
+          },
+          "lib/company/resource.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/business.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/customer.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/job.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/lead.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/line.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/location.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/quote.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/technician.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/visit.rb": {
+            "line": 100.0
+          },
+          "lib/company/selection.rb": {
+            "line": 100.0
+          }
+        }
+      },
+      {
+        "created_at": "2026-09-15T23:57:17Z",
+        "branch": "visit_location",
+        "commit": "0c6bddb8bcdeb3c5486d2d7975af826dc565496a",
+        "totals": {
+          "line": 100.0
+        },
+        "groups": {},
+        "files": {
+          "lib/company.rb": {
+            "line": 100.0
+          },
+          "lib/company/account.rb": {
+            "line": 100.0
+          },
+          "lib/company/collection.rb": {
+            "line": 100.0
+          },
+          "lib/company/collections/leads.rb": {
+            "line": 100.0
+          },
+          "lib/company/collections/visits.rb": {
+            "line": 100.0
+          },
+          "lib/company/error.rb": {
+            "line": 100.0
+          },
+          "lib/company/errors/throttled.rb": {
+            "line": 100.0
+          },
+          "lib/company/phone.rb": {
+            "line": 100.0
+          },
+          "lib/company/resource.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/business.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/customer.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/job.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/lead.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/line.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/location.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/quote.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/technician.rb": {
+            "line": 100.0
+          },
+          "lib/company/resources/visit.rb": {
+            "line": 100.0
+          },
+          "lib/company/selection.rb": {
+            "line": 100.0
+          }
+        }
+      }
+    ]
+  }
+}
