@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 For more information about changelogs, check [Keep a Changelog](http://keepachangelog.com) and
 [Vandamme](http://tech-angels.github.io/vandamme).
 
+## 3.0.0 - 2026-09-16
+
+- [Breaking change] `Collection#assigned_to` is `Collection#of`. It read as it should on booked
+  time -- a visit is assigned to somebody -- and as it should not on free time, nobody being
+  assigned to an hour they are not working. `account.visits.of(technician)` and
+  `account.windows.of(technician)` both read as the possessive they are.
+
+- [Feature] `account.windows`, a `Company::Windows` of `Company::Window`: the free time of a
+  business, every stretch somebody could be sent out in, over the window asked for. A window
+  reads `starts_at` and `ends_at` and nothing else -- it names no work and nobody going, a list
+  of them having been narrowed to one technician already.
+
+- [Feature] A window is as long as it is, rather than cut into slots of a fixed size. Only the
+  caller making an offer knows how long the pieces it offers need to be, and a stretch stored
+  whole can still be cut, where one already cut cannot be put back together.
+
+- [Note] A platform that does not work free time out for itself raises `NotImplementedError`
+  from `windows`, and `Company::Windows#of` does the same, rather than answering with none. An
+  empty week and a fully booked one are the same shape, so a caller reading none as none would
+  quietly stop offering that business at all -- with nothing in a log and no page looking wrong.
+
 ## 2.1.0 - 2026-09-15
 
 * [Feature] `Company::Collection#includes(*names)`, what to bring back beside each record. A

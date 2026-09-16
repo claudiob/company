@@ -15,6 +15,9 @@ module Company
     # @return [Collection] technicians of the business, each a {Technician}.
     def technicians = unanswered :technicians
 
+    # @return [Windows] free time of the business, each a {Window}, where the platform works it out.
+    def windows = unanswered :windows
+
     # @return [Leads] leads of the business: `create` files one, where the platform takes leads.
     def leads = Leads.new
 

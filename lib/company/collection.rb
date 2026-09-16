@@ -30,8 +30,8 @@ module Company
     # A platform that can ask its server for one technician's work narrows the list there; one
     # that cannot walks the list and keeps what the technician turns out to be on.
     # @param technician [Technician] whoever the work is booked for.
-    # @return [Collection] the same list, narrowed to what they are assigned to.
-    def assigned_to(technician)
+    # @return [Collection] the same list, narrowed to theirs.
+    def of(technician)
       Selection.new(collection: self) do |record|
         record.technicians.any? { |each| each.id == technician.id }
       end

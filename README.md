@@ -100,8 +100,12 @@ technician.id                            # => 't1'
 technician.name                          # => 'Grace'
 technician.surname                       # => 'Hopper'
 
-week = account.visits.between(monday, sunday).assigned_to(technician)
+week = account.visits.between(monday, sunday).of(technician)
 week.ids                                 # => ['v1', 'v2', ...]
+
+free = account.windows.between(monday, sunday).of(technician)
+free.first.starts_at                     # => 2026-09-16 13:00:00 UTC
+free.first.ends_at                       # => 2026-09-16 17:00:00 UTC
 
 lead = account.leads.create name: 'Jane', surname: 'Qi', phone: '5555555666',
   email: 'jane@example.com', address: { street: '100 Acme Circle', zip: '98920' },
@@ -125,6 +129,15 @@ priced yet -- Jobber calls it an assessment, Housecall Pro an estimate -- names 
 `job`. An hour blocked out on a calendar names neither, and occupies the technician's day just
 the same. `quote` stays the price, which is the other half of what Housecall Pro files as one
 record.
+
+A window is the other half of the same question: not the hours somebody is out, but the ones
+they are not. It names no work and nobody going, a list of them having been narrowed to one
+technician already, and it is as long as it is -- cut it into offerable pieces where an offer is
+being made, since only the caller making one knows how long it needs them to be.
+
+A platform that does not work free time out for itself answers `windows` with
+`NotImplementedError` rather than with none. An empty week and a fully booked one are the same
+shape, so a caller reading none as none would quietly stop offering that business at all.
 
 ## Answering as a gem
 
@@ -151,7 +164,7 @@ end
 the platform for. A reader the gem leaves out raises `NotImplementedError` naming the gem; leads
 it leaves out refuse to file one, and so do the visits. `includes` a gem leaves out answers the
 same list: a platform that hands a record over whole has nothing to bring back beside it, so a
-caller names what it reads without knowing which kind of platform it is talking to. `assigned_to`,
+caller names what it reads without knowing which kind of platform it is talking to. `of`,
 `for_jobs` and `for_leads` a gem leaves out still answer: `Company::Selection` walks the list and lets through
 what the rule keeps, so only a platform that can put the question to its server writes the
 method, and only to save the requests the walk would spend. The least a gem writes is under `test/acme`, and the test that

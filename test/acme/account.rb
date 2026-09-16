@@ -11,6 +11,8 @@ module Acme
 
     def technicians = Technicians.new
 
+    def windows = Windows.new
+
     def leads = Leads.new
   end
 end
