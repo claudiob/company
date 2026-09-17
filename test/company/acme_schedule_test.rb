@@ -20,10 +20,10 @@ class AcmeScheduleTest < Minitest::Test
     alan = @account.technicians.find { |each| each.id == 'technician-2' }
 
     assert_equal %w[technician-1 technician-2], @account.visits.upcoming.first.technicians.map(&:id)
-    assert_equal %w[visit-2 visit-3], @account.visits.of(alan).ids
+    assert_equal %w[visit-2 visit-3], @account.visits.of(alan.id).ids
     grace = @account.technicians.first
 
-    assert_equal %w[visit-1 visit-2 visit-4], @account.visits.of(grace).ids
+    assert_equal %w[visit-1 visit-2 visit-4], @account.visits.of(grace.id).ids
   end
 
   # The other half of a schedule: not the hours somebody is out, but the ones they are not.
@@ -34,10 +34,10 @@ class AcmeScheduleTest < Minitest::Test
     grace, alan = @account.technicians.to_a
 
     assert_equal 3, @account.windows.upcoming(1.week).count
-    assert_equal 2, @account.windows.upcoming(1.week).of(grace).count
-    assert_equal 1, @account.windows.upcoming(1.week).of(alan).count
+    assert_equal 2, @account.windows.upcoming(1.week).of(grace.id).count
+    assert_equal 1, @account.windows.upcoming(1.week).of(alan.id).count
 
-    window = @account.windows.upcoming(1.week).of(alan).first
+    window = @account.windows.upcoming(1.week).of(alan.id).first
 
     assert_equal 4.hours, window.ends_at - window.starts_at
     assert_equal %i[starts_at ends_at], Company::Window.node_keys
@@ -62,8 +62,8 @@ class AcmeScheduleTest < Minitest::Test
   def test_a_technician_and_a_window_narrow_the_same_list_in_either_order
     grace = @account.technicians.first
 
-    assert_equal %w[visit-2 visit-4], @account.visits.upcoming(1.week).of(grace).ids
-    assert_equal %w[visit-2 visit-4], @account.visits.of(grace).upcoming(1.week).ids
-    assert_equal %w[visit-1], @account.visits.of(grace).past.ids
+    assert_equal %w[visit-2 visit-4], @account.visits.upcoming(1.week).of(grace.id).ids
+    assert_equal %w[visit-2 visit-4], @account.visits.of(grace.id).upcoming(1.week).ids
+    assert_equal %w[visit-1], @account.visits.of(grace.id).past.ids
   end
 end

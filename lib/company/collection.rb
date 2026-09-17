@@ -28,12 +28,15 @@ module Company
     def includes(*names) = self
 
     # A platform that can ask its server for one technician's work narrows the list there; one
-    # that cannot walks the list and keeps what the technician turns out to be on.
-    # @param technician [Technician] whoever the work is booked for.
+    # that cannot walks the list and keeps what they turn out to be on. It takes the ID the
+    # platform files them under rather than the technician, that being the whole of what any
+    # platform asks by: a caller holding a record of its own then names the ID it knows, rather
+    # than dressing it up as a technician it does not have.
+    # @param id [String] ID the platform files whoever the work is booked for under.
     # @return [Collection] the same list, narrowed to theirs.
-    def of(technician)
+    def of(id)
       Selection.new(collection: self) do |record|
-        record.technicians.any? { |each| each.id == technician.id }
+        record.technicians.any? { |technician| technician.id == id }
       end
     end
 

@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 For more information about changelogs, check [Keep a Changelog](http://keepachangelog.com) and
 [Vandamme](http://tech-angels.github.io/vandamme).
 
+## 4.0.0 - 2026-09-17
+
+- [Breaking change] `of` takes the ID a platform files a technician under rather than the
+  technician: `account.visits.of(technician.id)` is what `account.visits.of(technician)` was.
+  The ID is the whole of what any platform narrows by -- every gem read `.id` off the object
+  and nothing else -- and taking it plainly is what stops a caller holding a record of its own
+  from dressing it up as a technician it does not have.
+
+- [Note] The object invited a mistake that has already been made. An app passing its own
+  technician row had its database ID sent as the platform's, and the platform answered with
+  everybody's work rather than one person's -- quietly, and correctly as far as it knew. Named
+  as an ID, that is not something a caller can write by accident.
+
+## 3.1.0 - 2026-09-17
+
+- [Feature] `account.visits.for_work`, the stops of jobs and of leads together and the hours
+  held around them let go. A caller wanting both kinds had to ask twice and put the two lists
+  back together; a platform that files blocked-out time apart, and charges a sweep of every
+  page to read it, is now spared the sweep instead.
+
 ## 3.0.0 - 2026-09-16
 
 - [Breaking change] `Collection#assigned_to` is `Collection#of`. It read as it should on booked

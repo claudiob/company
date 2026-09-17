@@ -100,10 +100,10 @@ technician.id                            # => 't1'
 technician.name                          # => 'Grace'
 technician.surname                       # => 'Hopper'
 
-week = account.visits.between(monday, sunday).of(technician)
+week = account.visits.between(monday, sunday).of(technician.id)
 week.ids                                 # => ['v1', 'v2', ...]
 
-free = account.windows.between(monday, sunday).of(technician)
+free = account.windows.between(monday, sunday).of(technician.id)
 free.first.starts_at                     # => 2026-09-16 13:00:00 UTC
 free.first.ends_at                       # => 2026-09-16 17:00:00 UTC
 
@@ -129,6 +129,9 @@ priced yet -- Jobber calls it an assessment, Housecall Pro an estimate -- names 
 `job`. An hour blocked out on a calendar names neither, and occupies the technician's day just
 the same. `quote` stays the price, which is the other half of what Housecall Pro files as one
 record.
+
+`for_jobs`, `for_leads` and `for_work` narrow by what a stop was booked against: one kind, the
+other, or both and not the hours held around them.
 
 A window is the other half of the same question: not the hours somebody is out, but the ones
 they are not. It names no work and nobody going, a list of them having been narrowed to one

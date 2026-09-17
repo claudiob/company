@@ -7,9 +7,9 @@ module Company
     # A window names nobody, a list of them having been narrowed to one technician already, so
     # there is nothing here to walk and keep: only the platform can tell one person's free time
     # from another's.
-    # @param technician [Technician] whose free time to answer.
+    # @param id [String] ID the platform files whoever is free under.
     # @return [Windows] the same list, as that technician's alone.
-    def of(technician)
+    def of(id)
       raise NotImplementedError, "#{self.class} does not answer one technician's windows"
     end
   end

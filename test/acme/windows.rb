@@ -25,11 +25,11 @@ module Acme
 
     def between(from, to) = with(from: from, to: to)
 
-    def of(technician) = with(technician: technician)
+    def of(id) = with(technician: id)
 
   private
 
-    def nodes = @technician ? NODES.fetch(@technician.id, []) : NODES.values.flatten
+    def nodes = @technician ? NODES.fetch(@technician, []) : NODES.values.flatten
 
     def with(**changed)
       self.class.new(**{ technician: @technician, from: @from, to: @to }.merge(changed))
