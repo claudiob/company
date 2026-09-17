@@ -298,6 +298,7 @@
       "visit.technicians                        " + C('# => [#<Acme::Technician>, ...]') + '\n' +
       "visit.job, visit.lead                    " + C('# => why, and either may be nothing') + '\n' +
       "visits.for_jobs, visits.for_leads        " + C('# => one kind of stop or the other') + '\n' +
+      "visits.for_work                          " + C('# => both kinds, and no hours held') + '\n' +
       "visits.includes(location: :customer)     " + C('# => free where a platform charges nothing') },
     { id: 'window', name: 'WINDOW', code:
       "free = account.windows.upcoming(1.week)  " + C('# => #<Acme::Windows>, the hours nobody took') + '\n' +
