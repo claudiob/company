@@ -302,7 +302,7 @@
       "visits.includes(location: :customer)     " + C('# => free where a platform charges nothing') },
     { id: 'window', name: 'WINDOW', code:
       "free = account.windows.upcoming(1.week)  " + C('# => #<Acme::Windows>, the hours nobody took') + '\n' +
-      "window = free.of(technician).first       " + C('# => #<Acme::Window>') + '\n' +
+      "window = free.of(technician.id).first    " + C('# => #<Acme::Window>') + '\n' +
       "window.starts_at, window.ends_at         " + C('# => 2026-09-17 13:00:00 UTC, and its end') + '\n' +
       '\n' +
       "                                         " + C('# as long as the pro is free, never cut') + '\n' +
@@ -315,7 +315,7 @@
       "technician.surname                       " + C("# => 'Hopper'") + '\n' +
       '\n' +
       "week = account.visits.between(mon, sun)  " + C('# => the schedule, both kinds of stop') + '\n' +
-      "week.of(technician).ids                  " + C("# => ['v1', ...], one person's week") },
+      "week.of(technician.id).ids               " + C("# => ['v1', ...], one person's week") },
     { id: 'lead', name: 'LEAD', code:
       "lead = account.leads.create name: 'Jane', surname: 'Qi',\n" +
       "  phone: '5555555666', email: 'jane@example.com',\n" +
