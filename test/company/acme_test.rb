@@ -70,4 +70,12 @@ class AcmeTest < Minitest::Test
     assert_nil job.location.customer.surname
     assert_nil job.location.customer.email
   end
+
+  # A kind names what it reads, and a gem asks its platform for exactly those keys, spelled
+  # through the `keys` it maps: Acme's business spells its phone the way Housecall Pro does.
+  def test_a_gem_asks_its_platform_for_the_keys_the_vocabulary_reads
+    assert_equal %i[id description notes created_at scheduled_at completed_at amount],
+      Company::Job.node_keys
+    assert_equal %i[id name phone_number], Acme::Business.node_keys
+  end
 end

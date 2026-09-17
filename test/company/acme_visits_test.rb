@@ -1,6 +1,6 @@
 require 'test_helper'
 
-# The rest of the tutorial: the visits, a lead filed, and what a gem asks its platform for.
+# The rest of the tutorial: the visits, and a lead filed.
 class AcmeVisitsTest < Minitest::Test
   def setup = @account = Acme::Account.new
 
@@ -47,6 +47,10 @@ class AcmeVisitsTest < Minitest::Test
     # And narrowing by kind and to a window narrow the same list, in either order
     assert_equal %w[visit-3], @account.visits.upcoming(1.week).for_leads.ids
     assert_equal %w[visit-3], @account.visits.for_leads.upcoming(1.week).ids
+    # Both kinds of stop and neither hour blocked out: what a caller asks for where it wants
+    # the work a platform can say something about, and not the time held around it
+    assert_equal %w[visit-1 visit-2 visit-3], @account.visits.for_work.ids
+    assert_equal %w[visit-2 visit-3], @account.visits.upcoming(1.week).for_work.ids
   end
 
   # Booking one takes the words a lead takes, plus when it is and who is going.
@@ -88,13 +92,5 @@ class AcmeVisitsTest < Minitest::Test
     assert_equal 'customer-3', lead.customer.id
     assert_equal 'Ada', lead.customer.name
     assert_equal '5552000001', lead.customer.phone
-  end
-
-  # A kind names what it reads, and a gem asks its platform for exactly those keys, spelled
-  # through the `keys` it maps: Acme's business spells its phone the way Housecall Pro does.
-  def test_a_gem_asks_its_platform_for_the_keys_the_vocabulary_reads
-    assert_equal %i[id description notes created_at scheduled_at completed_at amount],
-      Company::Job.node_keys
-    assert_equal %i[id name phone_number], Acme::Business.node_keys
   end
 end

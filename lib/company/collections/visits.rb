@@ -28,5 +28,11 @@ module Company
 
     # @return [Collection] the same list, narrowed to the stops of leads.
     def for_leads = Selection.new(collection: self, &:lead)
+
+    # Booked time a platform can say something about: the stops of jobs and of leads together,
+    # without the hours blocked out around them, which name no work and cost a list of their own
+    # on a platform that files them apart.
+    # @return [Collection] the same list, narrowed to the stops of work of either kind.
+    def for_work = Selection.new(collection: self) { |visit| visit.job || visit.lead }
   end
 end
